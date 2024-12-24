@@ -1,7 +1,11 @@
 package com.example.amaris;
 
+import com.example.amaris.entity.ModEntities;
+import com.example.amaris.client.renderer.entity.AmarasTridentRenderer;
+import com.example.amaris.item.ModItems;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -13,7 +17,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
-import com.example.amaris.item.ModItems;
 
 @Mod(Amaris.MODID)
 public class Amaris {
@@ -22,16 +25,31 @@ public class Amaris {
 
     public Amaris() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        ModItems.register(modEventBus);
+
+        // Register items and entities
+        ModItems.register(FMLJavaModLoadingContext.get().getModEventBus());
+
+        // Register the entity renderer
+        ModEntities.register(modEventBus);
+        EntityRenderers.register(ModEntities.AMARAS_TRIDENT_ENTITY.get(), AmarasTridentRenderer::new);
+
+
+
+        // Register the event handler for server starting
         MinecraftForge.EVENT_BUS.register(this);
+
+        // Add items to creative tab
         modEventBus.addListener(this::addCreative);
     }
 
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.COMBAT) {
-            event.accept(ModItems.SERENS_SYTHE);
-            event.accept(ModItems.LUCKY_SEVEN);
-            event.accept(ModItems.AMARAS_TRIDENT);
+            // Ensure AMARAS_TRIDENT is registered before adding it to the creative tab
+            if (ModItems.AMARAS_TRIDENT.isPresent()) {
+                event.accept(ModItems.AMARAS_TRIDENT.get());
+            } else {
+                LOGGER.warn("Amaras Trident item is not registered properly.");
+            }
         }
     }
 
@@ -51,3 +69,4 @@ public class Amaris {
         }
     }
 }
+
