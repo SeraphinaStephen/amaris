@@ -1,6 +1,7 @@
 package com.example.amaris.item;
 
 import com.example.amaris.Amaris;
+import com.example.amaris.item.custom.AmarasTridentItem;
 import net.minecraft.world.item.*;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -16,7 +17,8 @@ public class ModItems {
     public static final RegistryObject<Item> LUCKY_SEVEN = ITEMS.register("lucky_seven",
             () -> new SwordItem(Tiers.NETHERITE, 5000, -2, new Item.Properties().fireResistant()));
 
-    public static final RegistryObject<Item> AMARAS_TRIDENT = ITEMS.register("amaras_trident", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> AMARAS_TRIDENT = ITEMS.register("amaras_trident",
+            () -> new AmarasTridentItem(new Item.Properties().stacksTo(1).durability(250))); // Use your custom item class here
 
 
     public static void register(IEventBus eventBus) {

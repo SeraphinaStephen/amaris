@@ -5,16 +5,16 @@ import com.example.amaris.entity.ModEntities;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TridentItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
+import net.minecraft.client.renderer.entity.ThrownTridentRenderer;
 
 public class AmarasTridentItem extends TridentItem {
-
-    private static final int COOLDOWN_TICKS = 20; // Delay before the trident can be thrown again
-    private int cooldownTicks = 0;
 
     public AmarasTridentItem(Item.Properties properties) {
         super(properties);
@@ -22,45 +22,50 @@ public class AmarasTridentItem extends TridentItem {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        // The normal right-click behavior (only triggers once, not while holding)
-        if (!level.isClientSide) {
-            throwTrident(player, level, hand);
-        }
-        return InteractionResultHolder.sidedSuccess(player.getItemInHand(hand), level.isClientSide());
-    }
-
-    public void inventoryTickCustom(ItemStack stack, Level level, Player player, int slot, boolean isSelected) {
-        if (!level.isClientSide && isSelected && player.isUsingItem()) {
-            if (cooldownTicks <= 0) {
-                // Only throw trident if cooldown is finished
-                throwTrident(player, level, player.getUsedItemHand());
-                cooldownTicks = COOLDOWN_TICKS;  // Reset the cooldown
-            } else {
-                cooldownTicks--; // Reduce cooldown
-            }
-        }
-    }
-
-
-    private void throwTrident(Player player, Level level, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
 
-        // Create and shoot the trident entity
-        AmarasTridentEntity tridentEntity = new AmarasTridentEntity(ModEntities.AMARAS_TRIDENT_ENTITY.get(), level);
-        tridentEntity.setOwner(player); // Set player as the owner
-        tridentEntity.setItem(itemStack.copy()); // Set the item stack for the entity
+        // Enable the ability to "charge" the throw by holding right-click
+        player.startUsingItem(hand);
+        return InteractionResultHolder.consume(itemStack); // The item is used, but not yet thrown
+    }
 
-        // Shoot the trident from the player's position
+    @Override
+    public void releaseUsing(ItemStack stack, Level level, LivingEntity entity, int timeLeft) {
+        if (entity instanceof Player player) {
+            throwTrident(level, player, stack);
+            System.out.println("Trident entity added!");
+        }
+        else {
+            System.out.println("Client side: Entity is not added.");
+        }
+
+    }
+
+    private void throwTrident(Level level, Player player, ItemStack stack) {
+        AmarasTridentEntity tridentEntity = new AmarasTridentEntity(level, player, stack);
+
+        // Set the initial velocity/direction of the trident
         tridentEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2.5F, 1.0F);
 
-        // Add the entity to the world
-        level.addFreshEntity(tridentEntity);
+        if (!level.isClientSide()) {
+            level.addFreshEntity(tridentEntity);
+        }
 
-        // Damage the item (the trident)
-        itemStack.hurtAndBreak(1, player, (entity) -> entity.broadcastBreakEvent(hand));
+        // Damage the item
+        stack.hurtAndBreak(1, player, (entity) -> entity.broadcastBreakEvent(player.getUsedItemHand()));
 
-        // Play the throw sound
+        // Play the trident throw sound
         level.playSound(null, player.getX(), player.getY(), player.getZ(),
                 SoundEvents.TRIDENT_THROW, player.getSoundSource(), 1.0F, 1.0F);
+    }
+
+    @Override
+    public int getUseDuration(ItemStack stack) {
+        return 72000; // How long the player can hold right-click (max charge time)
+    }
+
+    @Override
+    public UseAnim getUseAnimation(ItemStack stack) {
+        return UseAnim.SPEAR; // Mimics the spear-charging animation (like the vanilla trident)
     }
 }

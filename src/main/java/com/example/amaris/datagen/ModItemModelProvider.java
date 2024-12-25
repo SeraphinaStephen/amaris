@@ -19,11 +19,12 @@ public class ModItemModelProvider extends ItemModelProvider {
     protected void registerModels() {
         handheldItem(ModItems.SERENS_SCYTHE);
         handheldItem(ModItems.LUCKY_SEVEN);
+        handheldItem(ModItems.AMARAS_TRIDENT);
     }
 
     private ItemModelBuilder handheldItem(RegistryObject<Item> item) {
         return withExistingParent(item.getId().getPath(),
-                new ResourceLocation("item/handheld")).texture("layer0",
-                new ResourceLocation(Amaris.MODID,"item/" + item.getId().getPath()));
+                new ResourceLocation("item/handheld")) // Ensure "handheld" is correct
+                .texture("layer0", new ResourceLocation(Amaris.MODID, "item/" + item.getId().getPath()));
     }
 }

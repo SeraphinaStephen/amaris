@@ -23,6 +23,7 @@ public class AmarasTridentEntity extends ThrownTrident {
     // This constructor is for when we spawn the trident with an owner and an item stack
     public AmarasTridentEntity(Level level, LivingEntity owner, ItemStack stack) {
         super(level, owner, stack);
+        System.out.println("AmarasTridentEntity is being created and added to the level!");
     }
 
     @Override
