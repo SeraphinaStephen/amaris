@@ -1,0 +1,16 @@
+{
+  "effects": {
+    "amaris:spice_of_life": {
+      "x": 0,
+      "y": 0
+    },
+    "amaris:soulmates": {
+      "x": 16,
+      "y": 0
+    },
+    "amaris:deaths_embrace": {
+      "x": 32,
+      "y": 0
+    }
+  }
+}

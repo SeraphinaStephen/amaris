@@ -17,6 +17,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
+import com.example.amaris.effect.ModEffects;
 
 @Mod(Amaris.MODID)
 public class Amaris {
@@ -29,6 +30,7 @@ public class Amaris {
         // Register items and entities
         ModItems.register(modEventBus);
         ModEntities.register(modEventBus);
+        ModEffects.register(modEventBus);
 
         // Register to Forge's Event Bus
         MinecraftForge.EVENT_BUS.register(this);
@@ -41,6 +43,9 @@ public class Amaris {
         if (event.getTabKey() == CreativeModeTabs.COMBAT) {
             // Ensure AMARAS_TRIDENT is registered before adding it to the creative tab
             ModItems.AMARAS_TRIDENT.ifPresent(event::accept);
+            event.accept(ModItems.SERENS_SCYTHE.get());
+            event.accept(ModItems.LUCKY_SEVEN.get());
+            event.accept(ModItems.BLADES_MERCY.get());
         }
     }
 

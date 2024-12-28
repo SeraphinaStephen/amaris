@@ -19,6 +19,7 @@ public class ModItemModelProvider extends ItemModelProvider {
     protected void registerModels() {
         handheldItem(ModItems.SERENS_SCYTHE);
         handheldItem(ModItems.LUCKY_SEVEN);
+        handheldItem(ModItems.BLADES_MERCY);
         handheldItem(ModItems.AMARAS_TRIDENT);
     }
 
