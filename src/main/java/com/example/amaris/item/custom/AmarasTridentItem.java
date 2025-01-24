@@ -1,7 +1,6 @@
 package com.example.amaris.item.custom;
 
 import com.example.amaris.entity.projectile.AmarasTridentEntity;
-import com.example.amaris.entity.ModEntities;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -12,7 +11,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
-import net.minecraft.client.renderer.entity.ThrownTridentRenderer;
 
 public class AmarasTridentItem extends TridentItem {
 

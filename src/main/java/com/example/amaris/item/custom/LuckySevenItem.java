@@ -71,19 +71,17 @@ public class LuckySevenItem extends SwordItem {
                     MobEffects.SLOW_FALLING,
                     MobEffects.CONDUIT_POWER,
                     MobEffects.DOLPHINS_GRACE,
-                    MobEffects.BAD_OMEN,
                     MobEffects.HERO_OF_THE_VILLAGE,
                     MobEffects.HUNGER,
                     MobEffects.DIG_SLOWDOWN,
-                    MobEffects.BAD_OMEN
             };
 
             // Choose a random effect from the array
             MobEffect randomEffect = effects[random.nextInt(effects.length)];
-            int duration = random.nextInt(200) + 100; // Random duration: 5 to 15 seconds in ticks
+            int duration = random.nextInt(2000) + 100; // Random duration: 5 to 15 seconds in ticks
 
             // Apply the effect to the target entity
-            target.addEffect(new MobEffectInstance(randomEffect, duration, 1));
+            target.addEffect(new MobEffectInstance(randomEffect, duration, 2));
 
             // Play a sound to provide feedback to the player
             player.level().playSound(null, target.blockPosition(), SoundEvents.BREWING_STAND_BREW, SoundSource.PLAYERS, 1.0F, 1.0F);

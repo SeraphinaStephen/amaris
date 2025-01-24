@@ -46,6 +46,7 @@ public class Amaris {
             event.accept(ModItems.SERENS_SCYTHE.get());
             event.accept(ModItems.LUCKY_SEVEN.get());
             event.accept(ModItems.BLADES_MERCY.get());
+            event.accept(ModItems.GIOS_CROWBAR.get());
         }
     }
 
