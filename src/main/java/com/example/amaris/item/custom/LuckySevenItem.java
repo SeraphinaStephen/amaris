@@ -1,5 +1,8 @@
 package com.example.amaris.item.custom;
 
+import com.example.amaris.effect.ModEffects;
+import com.example.amaris.item.ModItems;
+import io.redspace.ironsspellbooks.IronsSpellbooks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -19,6 +22,7 @@ import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import io.redspace.ironsspellbooks.effect.*;
 
 import java.util.Random;
 

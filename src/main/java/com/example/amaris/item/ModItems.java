@@ -9,6 +9,9 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import io.redspace.ironsspellbooks.api.registry.SpellDataRegistryHolder;
+import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
+
 
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Amaris.MODID);
@@ -30,7 +33,10 @@ public class ModItems {
             () -> new SwordItem(Tiers.NETHERITE, 8, -2, new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
 
     public static final RegistryObject<Item> AMARAS_TRIDENT = ITEMS.register("amaras_trident",
-            () -> new AmarasTridentItem(new Item.Properties().stacksTo(1).durability(250))); // Use your custom item class here
+            () -> new AmarasTridentItem(SpellDataRegistryHolder.of(new SpellDataRegistryHolder(SpellRegistry.LIGHTNING_LANCE_SPELL, 10))));
+
+    //public static final RegistryObject<Item> LIGHTNING_ROD_STAFF = ITEMS.register("lightning_rod", () ->
+    // new StaffItem(ItemPropertiesHelper.equipment(1).rarity(Rarity.UNCOMMON).fireResistant(), 4, -3, Map.of(AttributeRegistry.COOLDOWN_REDUCTION.get(), new AttributeModifier(UUID.fromString("667ad88f-901d-4691-b2a2-3664e42026d3"), "Weapon modifier", .15, AttributeModifier.Operation.MULTIPLY_BASE), AttributeRegistry.LIGHTNING_SPELL_POWER.get(), new AttributeModifier(UUID.fromString("667ad88f-901d-4691-b2a2-3664e42026d3"), "Weapon modifier", .15, AttributeModifier.Operation.MULTIPLY_BASE), AttributeRegistry.SPELL_POWER.get(), new AttributeModifier(UUID.fromString("667ad88f-901d-4691-b2a2-3664e42026d3"), "Weapon modifier", .05, AttributeModifier.Operation.MULTIPLY_BASE))));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
